@@ -7,16 +7,20 @@ class i2c_driver extends uvm_driver #(i2c_basic_tr);
   `uvm_component_utils(i2c_driver)
 
   virtual dut_if dut_vif;
+  int period_ns = 1; //ticket CJ;
 
   function new(string name, uvm_component parent);
     super.new(name, parent);
   endfunction : new
 
   function void build_phase(uvm_phase phase);
+
   endfunction : build_phase
   
   function void connect_phase(uvm_phase phase);
+  //Database to Virtual interface
     assert(uvm_config_db#(virtual dut_if)::get(this, "", "dut_if", dut_vif));  
+
   endfunction
 
   task run_phase(uvm_phase phase);
@@ -29,7 +33,7 @@ class i2c_driver extends uvm_driver #(i2c_basic_tr);
     dut_vif.sda_val = 0;
     #(period_ns*1ns);
     dut_vif.scl_val = 0;
-    #(period_ns*1ns);
+    #(period_ns*1ns); //@(posedge ) . Rellenar CJ;
   endtask
         
   local task set_byte(logic[7:0] b);		//we assume SCLK=0, toggle data in posedge
