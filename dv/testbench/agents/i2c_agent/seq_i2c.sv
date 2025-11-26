@@ -4,10 +4,10 @@
 `include "transaction_i2c.sv"
 
 class i2c_basic_seq extends uvm_sequence#(i2c_basic_tr);
-  //data?
-  byte i2c_addr;
-  byte i2c_data;
-  bit i2c_write; 
+  // Datos a enviar en la transacción
+  byte addr;
+  byte data;
+  bit  write;
   `uvm_object_utils(i2c_basic_seq)
   
   function new(string name = "i2c_basic_seq");
@@ -17,9 +17,12 @@ class i2c_basic_seq extends uvm_sequence#(i2c_basic_tr);
   virtual task body();
     
     `uvm_info(get_type_name(), "i2c_basic_seq created", UVM_LOW)
-    `uvm_do(req);
-    //`uvm_do_with(req, { req.addr == addr; req.data == data }); //Setear condiciones queridas
-	//...
+    // Conduce el contenido deseado en el transaction request
+    `uvm_do_with(req, {
+      req.addr == addr;
+      req.data == data;
+      req.read == !write;
+    });
   endtask : body
 endclass : i2c_basic_seq
 
