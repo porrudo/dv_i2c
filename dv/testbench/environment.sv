@@ -20,6 +20,7 @@ class environment extends uvm_env;
   endfunction
 
   function void connect_phase(uvm_phase phase);
+    assert(uvm_config_db#(virtual dut_if)::get(this, "", "dut_if", dut_vif)); 
     //agente.monitor.port.connect(scb.i2c_seq.analysis_export);   //CJ; get interface from database ; Añadir la conexión con el puntero
     agt_i2c.driver.dut_vif = dut_vif;
     agt_i2c.monitor.dut_vif = dut_vif; //CJ; conecta driver y monitor con dut if (func?)

@@ -4,6 +4,7 @@
 `include "transaction_i2c.sv"
 `include "monitor_i2c.sv"
 `include "driver_i2c.sv"
+`include "seq_i2c.sv"
 
 class i2c_agent extends uvm_agent;
   `uvm_component_utils(i2c_agent)
